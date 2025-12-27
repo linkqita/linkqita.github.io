@@ -28,11 +28,15 @@ body{margin:0;background:linear-gradient(135deg,#0E7C86,#38BFB3,#9EE5C4);font-fa
 </div>
 </div>
 
+<script src="links.js"></script> 
+  
 <script>
-const p=new URLSearchParams(location.search);
-const PAGE=p.get("page");
-const FILE=p.get("file");
-const SHOP=p.get("shop");
+const key = location.pathname.split("/").pop();
+const DATA = LINKS[key];
+
+const PAGE = DATA.page;
+const FILE = DATA.file;
+const SHOP = DATA.shop;
 const API="https://script.google.com/macros/s/AKfycbxokIcAUjpN3RGA4aY1hJ_qlrQk9X0T994eWMAuqzvpXtHEC8bElIID6Jarg82Djq8F/exec";
 
 fetch(`${API}?page=${PAGE}&action=visit`).then(r=>r.json()).then(j=>{
