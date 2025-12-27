@@ -34,6 +34,11 @@ body{margin:0;background:linear-gradient(135deg,#0E7C86,#38BFB3,#9EE5C4);font-fa
 const key = location.pathname.split("/").pop();
 const DATA = LINKS[key];
 
+if(!DATA){
+  document.body.innerHTML = "<h3 style='color:white;text-align:center'>Link tidak ditemukan</h3>";
+  throw new Error("Shortlink tidak terdaftar");
+}
+
 const PAGE = DATA.page;
 const FILE = DATA.file;
 const SHOP = DATA.shop;
