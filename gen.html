@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generator Link Download</title>
+<style>
+body{font-family:Arial;background:#020617;color:white;display:flex;justify-content:center;align-items:center;height:100vh}
+.card{background:#0f172a;padding:20px;border-radius:12px;width:360px}
+input,button{width:100%;padding:12px;margin-top:10px;border-radius:8px;border:0}
+button{background:#38BFB3;color:#022c22;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h3>Generator Link</h3>
+<input id="page" placeholder="Nama halaman / PAGE_ID">
+<input id="file" placeholder="Link file (direct)">
+<input id="shop" placeholder="Link Shopee affiliate">
+<button onclick="gen()">GENERATE LINK</button>
+<input id="out" onclick="this.select()">
+</div>
+
+<script>
+function gen(){
+ const p=encodeURIComponent(page.value);
+ const f=encodeURIComponent(file.value);
+ const s=encodeURIComponent(shop.value);
+ out.value = location.origin+"/dl/?page="+p+"&file="+f+"&shop="+s;
+}
+</script>
+</body>
+</html>
