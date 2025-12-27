@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Download</title>
+<style>
+body{margin:0;background:#0E7C86;font-family:Arial;color:white;display:flex;justify-content:center;align-items:center;height:100vh}
+.box{background:#F4F8F8;color:#0F2F3A;padding:28px;border-radius:16px;text-align:center;width:360px}
+.btn{background:#38BFB3;color:#0F2F3A;padding:14px;border-radius:10px;margin-top:14px;cursor:pointer;font-weight:bold}
+.timer{font-size:26px;margin-top:16px;display:none}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Download File</h2>
+<div id="start" class="btn" onclick="start()">MULAI</div>
+<div id="timer" class="timer"></div>
+<div id="act" style="display:none">
+  <div class="btn" onclick="go()">DOWNLOAD</div>
+</div>
+</div>
+
+<script>
+const q = new URLSearchParams(location.search).get("k");
+const [F,S,I] = atob(q).split("|").map(x=>atob(x));
+
+function start(){
+ let t=5;
+ document.getElementById("start").style.display="none";
+ const tm=document.getElementById("timer");
+ tm.style.display="block";
+ tm.innerText=t;
+ const i=setInterval(()=>{
+  t--; tm.innerText=t;
+  if(t<=0){clearInterval(i);tm.style.display="none";document.getElementById("act").style.display="block";}
+ },1000);
+}
+function go(){
+ window.open(S,"_blank");
+ setTimeout(()=>{ location.href=F; },1200);
+}
+</script>
+</body>
+</html>
