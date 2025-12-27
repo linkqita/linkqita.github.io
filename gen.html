@@ -25,7 +25,9 @@ button{background:#38BFB3;color:#022c22;font-weight:bold}
 function fixDrive(url){
   if(url.includes("drive.google.com")){
     const id = (url.match(/\/d\/([^\/]+)/) || url.match(/id=([^&]+)/));
-    if(id) return "https://drive.google.com/uc?export=download&confirm=t&id="+id[1];
+    if(id){
+      return "https://drive.usercontent.google.com/download?id="+id[1]+"&export=download&confirm=t";
+    }
   }
   return url;
 }
