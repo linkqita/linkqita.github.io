@@ -22,12 +22,18 @@ button{background:#38BFB3;color:#022c22;font-weight:bold}
 </div>
 
 <script>
+function fixDrive(url){
+  if(url.includes("drive.google.com")){
+    const id = (url.match(/\/d\/([^\/]+)/) || url.match(/id=([^&]+)/));
+    if(id) return "https://drive.google.com/uc?export=download&confirm=t&id="+id[1];
+  }
+  return url;
+}
+
 function gen(){
- const p=encodeURIComponent(page.value);
- const f=encodeURIComponent(file.value);
- const s=encodeURIComponent(shop.value);
+ const p=encodeURIComponent(page.value.trim());
+ const f=encodeURIComponent(fixDrive(file.value.trim()));
+ const s=encodeURIComponent(shop.value.trim());
  out.value = location.origin+"/dl/?page="+p+"&file="+f+"&shop="+s;
 }
 </script>
-</body>
-</html>
