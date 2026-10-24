@@ -3,54 +3,62 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Portal Admin Kraton</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Operator Kraton</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        .bento-card { background: #1e293b; transition: all 0.3s; }
+        .bento-card:hover { transform: translateY(-5px); border-color: #10b981; }
+        .glass-bg { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
-    <!-- Auth Modal -->
-    <div id="authModal" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-800 p-8 rounded-2xl w-full max-w-sm border border-slate-700 text-center">
-            <h2 class="text-2xl font-bold mb-6 text-emerald-400">Portal Kraton</h2>
-            <input type="password" id="passInput" placeholder="Masukkan Password" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl mb-4 text-center">
-            <button onclick="checkAuth()" class="w-full py-3 bg-emerald-600 rounded-xl font-bold hover:bg-emerald-500">Masuk</button>
+<body class="bg-[#0b1120] text-slate-200 font-sans p-4">
+    <!-- Auth -->
+    <div id="auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950">
+        <div class="bg-slate-900 p-8 rounded-3xl border border-slate-700 w-full max-w-sm">
+            <h2 class="text-2xl font-bold text-emerald-400 mb-6">Akses Portal</h2>
+            <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-800 rounded-xl mb-4 border border-slate-600">
+            <button onclick="login()" class="w-full py-4 bg-emerald-600 rounded-xl font-bold">Masuk</button>
         </div>
     </div>
 
-    <!-- Main App -->
-    <div id="app" class="hidden p-4 max-w-4xl mx-auto">
-        <div id="announcement" class="bg-emerald-900/30 border border-emerald-500/30 p-4 rounded-xl mb-6 text-sm text-emerald-300"></div>
-        <div id="linkGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        <button id="adminBtn" class="mt-8 text-slate-500 text-xs hidden" onclick="goAdmin()">Admin Panel</button>
+    <!-- Dashboard -->
+    <div id="app" class="hidden max-w-4xl mx-auto space-y-6">
+        <header class="flex justify-between items-center p-6 bg-slate-800 rounded-3xl border border-slate-700">
+            <div>
+                <h1 class="text-xl font-bold">Dashboard Operator</h1>
+                <p class="text-slate-400 text-sm">Kecamatan Kraton</p>
+            </div>
+            <button onclick="window.location.href='admin.html'" id="adminBtn" class="hidden text-emerald-400 font-bold">Admin</button>
+        </header>
+
+        <section id="announcement" class="p-6 bg-emerald-900/20 border-l-4 border-emerald-500 rounded-r-2xl text-emerald-300"></section>
+
+        <section id="linkGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></section>
     </div>
 
     <script src="data.js"></script>
     <script>
-        const PASS_OP = "Kraton2026";
-        const PASS_ADM = "Sate123";
-
-        function checkAuth() {
-            const p = document.getElementById('passInput').value;
-            if(p === PASS_OP || p === PASS_ADM) {
-                document.getElementById('authModal').classList.add('hidden');
+        function login() {
+            const p = document.getElementById('pass').value;
+            if(p === "Kraton2026" || p === "Sate123") {
+                document.getElementById('auth').classList.add('hidden');
                 document.getElementById('app').classList.remove('hidden');
-                if(p === PASS_ADM) document.getElementById('adminBtn').classList.remove('hidden');
+                if(p === "Sate123") document.getElementById('adminBtn').classList.remove('hidden');
                 init();
-            } else alert("Password Salah!");
+            } else alert("Password Salah");
         }
-
         function init() {
             document.getElementById('announcement').innerText = portalData.announcement;
             const grid = document.getElementById('linkGrid');
             portalData.links.forEach(l => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-800 p-4 rounded-2xl border border-slate-700 hover:border-emerald-500 cursor-pointer transition";
-                card.onclick = () => window.open(l.url, '_blank');
-                card.innerHTML = `<p class='font-semibold text-sm'>${l.name}</p>`;
-                grid.appendChild(card);
+                const c = document.createElement('div');
+                c.className = "bento-card p-6 rounded-3xl border border-slate-700 cursor-pointer flex flex-col items-center justify-center text-center";
+                c.onclick = () => window.open(l.url, '_blank');
+                c.innerHTML = `<span class='font-bold text-sm'>${l.name}</span>`;
+                grid.appendChild(c);
             });
         }
-        function goAdmin() { window.location.href = 'admin.html'; }
     </script>
 </body>
 </html>
