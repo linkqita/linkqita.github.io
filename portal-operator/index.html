@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Admin Operator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-indigo-200 min-h-screen font-sans">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 p-4">
+        <div class="glass max-w-lg mx-auto rounded-2xl p-4 flex flex-col gap-4 shadow-lg border border-white/30">
+            <div class="flex justify-between items-center">
+                <h1 class="text-xl font-bold text-indigo-900">Operator Portal</h1>
+                <div class="flex gap-2">
+                    <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20"><i data-lucide="moon"></i></button>
+                </div>
+            </div>
+            <div class="relative">
+                <i data-lucide="search" class="absolute left-3 top-3 w-5 h-5 text-indigo-400"></i>
+                <input type="text" id="searchInput" placeholder="Cari portal..." 
+                    class="w-full pl-10 pr-4 py-2 bg-white/40 border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all placeholder:text-indigo-400">
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories -->
+    <nav class="px-4 py-2 overflow-x-auto whitespace-nowrap flex gap-3 no-scrollbar">
+        <button class="cat-btn active" data-cat="ALL">Semua</button>
+        <button class="cat-btn" data-cat="EMIS">EMIS</button>
+        <button class="cat-btn" data-cat="VERVAL">VERVAL</button>
+        <button class="cat-btn" data-cat="BOS">BOS</button>
+        <button class="cat-btn" data-cat="IJAZAH/AN">IJAZAH/AN</button>
+        <button class="cat-btn" data-cat="PIP">PIP</button>
+        <button class="cat-btn" data-cat="LAINNYA">Lainnya</button>
+    </nav>
+
+    <!-- Content -->
+    <main class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto" id="linkGrid">
+        <!-- Rendered by JS -->
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
