@@ -4,37 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Operator Kraton</title>
+    <title>Portal Resmi Operator Madrasah</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .bento-card { background: #1e293b; transition: all 0.3s; }
-        .bento-card:hover { transform: translateY(-5px); border-color: #10b981; }
-        .glass-bg { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); }
+        .instansi-nav { background: #1e3a8a; } /* Navy Kemenag */
+        .portal-header { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); }
     </style>
 </head>
-<body class="bg-[#0b1120] text-slate-200 font-sans p-4">
+<body class="bg-gray-50 text-gray-800 font-sans">
+
     <!-- Auth -->
-    <div id="auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950">
-        <div class="bg-slate-900 p-8 rounded-3xl border border-slate-700 w-full max-w-sm">
-            <h2 class="text-2xl font-bold text-emerald-400 mb-6">Akses Portal</h2>
-            <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-800 rounded-xl mb-4 border border-slate-600">
-            <button onclick="login()" class="w-full py-4 bg-emerald-600 rounded-xl font-bold">Masuk</button>
+    <div id="auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/80">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm border-t-4 border-blue-800">
+            <h2 class="text-xl font-bold text-blue-900 mb-6 text-center">LOGIN OPERATOR</h2>
+            <input type="password" id="pass" placeholder="Password Akses" class="w-full p-3 border rounded-lg mb-4">
+            <button onclick="login()" class="w-full py-3 bg-blue-800 text-white font-bold rounded-lg hover:bg-blue-900">MASUK</button>
         </div>
     </div>
 
-    <!-- Dashboard -->
-    <div id="app" class="hidden max-w-4xl mx-auto space-y-6">
-        <header class="flex justify-between items-center p-6 bg-slate-800 rounded-3xl border border-slate-700">
-            <div>
-                <h1 class="text-xl font-bold">Dashboard Operator</h1>
-                <p class="text-slate-400 text-sm">Kecamatan Kraton</p>
-            </div>
-            <button onclick="window.location.href='admin.html'" id="adminBtn" class="hidden text-emerald-400 font-bold">Admin</button>
+    <!-- Main -->
+    <div id="app" class="hidden">
+        <nav class="instansi-nav p-4 text-white text-center font-bold shadow-md">PORTAL LAYANAN OPERATOR MADRASAH</nav>
+        
+        <header class="portal-header text-white p-8 text-center">
+            <h1 class="text-2xl font-bold">KECAMATAN KRATON</h1>
+            <p class="text-blue-100 opacity-90 text-sm">Sistem Layanan Terpadu Pendataan & Verval</p>
         </header>
 
-        <section id="announcement" class="p-6 bg-emerald-900/20 border-l-4 border-emerald-500 rounded-r-2xl text-emerald-300"></section>
-
-        <section id="linkGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></section>
+        <main class="max-w-3xl mx-auto p-4 space-y-6">
+            <!-- Announcement -->
+            <div id="announcement" class="bg-amber-100 border-l-4 border-amber-500 p-4 text-sm text-amber-900 shadow-sm"></div>
+            
+            <!-- Link Categories -->
+            <div id="categories" class="space-y-6"></div>
+        </main>
     </div>
 
     <script src="data.js"></script>
@@ -44,19 +47,25 @@
             if(p === "Kraton2026" || p === "Sate123") {
                 document.getElementById('auth').classList.add('hidden');
                 document.getElementById('app').classList.remove('hidden');
-                if(p === "Sate123") document.getElementById('adminBtn').classList.remove('hidden');
                 init();
             } else alert("Password Salah");
         }
         function init() {
-            document.getElementById('announcement').innerText = portalData.announcement;
-            const grid = document.getElementById('linkGrid');
-            portalData.links.forEach(l => {
-                const c = document.createElement('div');
-                c.className = "bento-card p-6 rounded-3xl border border-slate-700 cursor-pointer flex flex-col items-center justify-center text-center";
-                c.onclick = () => window.open(l.url, '_blank');
-                c.innerHTML = `<span class='font-bold text-sm'>${l.name}</span>`;
-                grid.appendChild(c);
+            document.getElementById('announcement').innerText = "Pengumuman: " + portalData.announcement;
+            const container = document.getElementById('categories');
+            const cats = [...new Set(portalData.links.map(l => l.category))];
+            
+            cats.forEach(cat => {
+                const section = document.createElement('div');
+                section.innerHTML = `<h3 class="font-bold text-blue-800 mb-2 border-b-2 border-blue-800 pb-1">${cat}</h3>`;
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-2";
+                
+                portalData.links.filter(l => l.category === cat).forEach(l => {
+                    grid.innerHTML += `<a href="${l.url}" target="_blank" class="p-3 bg-white border border-gray-200 rounded hover:bg-blue-50 text-sm font-medium text-gray-700 shadow-sm">➤ ${l.name}</a>`;
+                });
+                section.appendChild(grid);
+                container.appendChild(section);
             });
         }
     </script>
