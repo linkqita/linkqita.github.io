@@ -3,50 +3,54 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Admin Operator</title>
+    <title>Portal Admin Kraton</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
 </head>
-<body class="bg-gradient-to-br from-blue-100 to-indigo-200 min-h-screen font-sans">
-    
-    <!-- Header -->
-    <header class="sticky top-0 z-50 p-4">
-        <div class="glass max-w-lg mx-auto rounded-2xl p-4 flex flex-col gap-4 shadow-lg border border-white/30">
-            <div class="flex justify-between items-center">
-                <h1 class="text-xl font-bold text-indigo-900">Operator Portal</h1>
-                <div class="flex gap-2">
-                    <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20"><i data-lucide="moon"></i></button>
-                </div>
-            </div>
-            <div class="relative">
-                <i data-lucide="search" class="absolute left-3 top-3 w-5 h-5 text-indigo-400"></i>
-                <input type="text" id="searchInput" placeholder="Cari portal..." 
-                    class="w-full pl-10 pr-4 py-2 bg-white/40 border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all placeholder:text-indigo-400">
-            </div>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 p-8 rounded-2xl w-full max-w-sm border border-slate-700 text-center">
+            <h2 class="text-2xl font-bold mb-6 text-emerald-400">Portal Kraton</h2>
+            <input type="password" id="passInput" placeholder="Masukkan Password" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl mb-4 text-center">
+            <button onclick="checkAuth()" class="w-full py-3 bg-emerald-600 rounded-xl font-bold hover:bg-emerald-500">Masuk</button>
         </div>
-    </header>
+    </div>
 
-    <!-- Categories -->
-    <nav class="px-4 py-2 overflow-x-auto whitespace-nowrap flex gap-3 no-scrollbar">
-        <button class="cat-btn active" data-cat="ALL">Semua</button>
-        <button class="cat-btn" data-cat="EMIS">EMIS</button>
-        <button class="cat-btn" data-cat="VERVAL">VERVAL</button>
-        <button class="cat-btn" data-cat="BOS">BOS</button>
-        <button class="cat-btn" data-cat="IJAZAH/AN">IJAZAH/AN</button>
-        <button class="cat-btn" data-cat="PIP">PIP</button>
-        <button class="cat-btn" data-cat="LAINNYA">Lainnya</button>
-    </nav>
-
-    <!-- Content -->
-    <main class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto" id="linkGrid">
-        <!-- Rendered by JS -->
-    </main>
+    <!-- Main App -->
+    <div id="app" class="hidden p-4 max-w-4xl mx-auto">
+        <div id="announcement" class="bg-emerald-900/30 border border-emerald-500/30 p-4 rounded-xl mb-6 text-sm text-emerald-300"></div>
+        <div id="linkGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        <button id="adminBtn" class="mt-8 text-slate-500 text-xs hidden" onclick="goAdmin()">Admin Panel</button>
+    </div>
 
     <script src="data.js"></script>
-    <script src="app.js"></script>
+    <script>
+        const PASS_OP = "Kraton2026";
+        const PASS_ADM = "Sate123";
+
+        function checkAuth() {
+            const p = document.getElementById('passInput').value;
+            if(p === PASS_OP || p === PASS_ADM) {
+                document.getElementById('authModal').classList.add('hidden');
+                document.getElementById('app').classList.remove('hidden');
+                if(p === PASS_ADM) document.getElementById('adminBtn').classList.remove('hidden');
+                init();
+            } else alert("Password Salah!");
+        }
+
+        function init() {
+            document.getElementById('announcement').innerText = portalData.announcement;
+            const grid = document.getElementById('linkGrid');
+            portalData.links.forEach(l => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 p-4 rounded-2xl border border-slate-700 hover:border-emerald-500 cursor-pointer transition";
+                card.onclick = () => window.open(l.url, '_blank');
+                card.innerHTML = `<p class='font-semibold text-sm'>${l.name}</p>`;
+                grid.appendChild(card);
+            });
+        }
+        function goAdmin() { window.location.href = 'admin.html'; }
+    </script>
 </body>
 </html>
