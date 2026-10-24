@@ -4,70 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Resmi Operator Madrasah</title>
+    <title>Portal Resmi Operator Madrasah - Kraton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .instansi-nav { background: #1e3a8a; } /* Navy Kemenag */
-        .portal-header { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); }
+        .portal-header { background: #1e3a8a; }
+        .instansi-nav { background: #0f172a; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
+    <nav class="instansi-nav p-3 text-white text-center text-xs font-semibold tracking-widest">KANTOR KECAMATAN KRATON</nav>
+    <header class="portal-header text-white p-6 md:p-10 text-center shadow-lg">
+        <h1 class="text-2xl md:text-3xl font-bold">PORTAL OPERATOR MADRASAH</h1>
+        <p class="text-blue-200 mt-2 text-sm italic">Satu Pintu Layanan Pendataan & Verval</p>
+    </header>
 
-    <!-- Auth -->
-    <div id="auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/80">
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm border-t-4 border-blue-800">
-            <h2 class="text-xl font-bold text-blue-900 mb-6 text-center">LOGIN OPERATOR</h2>
-            <input type="password" id="pass" placeholder="Password Akses" class="w-full p-3 border rounded-lg mb-4">
-            <button onclick="login()" class="w-full py-3 bg-blue-800 text-white font-bold rounded-lg hover:bg-blue-900">MASUK</button>
+    <main class="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+        <!-- Pengumuman & Info -->
+        <div class="grid md:grid-cols-3 gap-6">
+            <section id="announcement" class="md:col-span-2 bg-amber-50 border border-amber-200 p-5 rounded-lg shadow-sm">
+                <h2 class="font-bold text-amber-900 mb-2 border-b border-amber-300 pb-1">📢 PENGUMUMAN PENTING</h2>
+                <p id="announcement-text" class="text-sm text-amber-800"></p>
+            </section>
+            <section class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                <h2 class="font-bold text-blue-900 mb-2 border-b border-blue-200 pb-1">ℹ️ INFO TERKINI</h2>
+                <ul class="text-xs text-gray-600 space-y-2 list-disc pl-4">
+                    <li>Sinkronisasi EMIS setiap pukul 15.00 WIB.</li>
+                    <li>Pastikan cache browser selalu dibersihkan.</li>
+                </ul>
+            </section>
         </div>
-    </div>
-
-    <!-- Main -->
-    <div id="app" class="hidden">
-        <nav class="instansi-nav p-4 text-white text-center font-bold shadow-md">PORTAL LAYANAN OPERATOR MADRASAH</nav>
         
-        <header class="portal-header text-white p-8 text-center">
-            <h1 class="text-2xl font-bold">KECAMATAN KRATON</h1>
-            <p class="text-blue-100 opacity-90 text-sm">Sistem Layanan Terpadu Pendataan & Verval</p>
-        </header>
+        <!-- Link Categories -->
+        <div id="categories" class="grid md:grid-cols-2 gap-6"></div>
+    </main>
 
-        <main class="max-w-3xl mx-auto p-4 space-y-6">
-            <!-- Announcement -->
-            <div id="announcement" class="bg-amber-100 border-l-4 border-amber-500 p-4 text-sm text-amber-900 shadow-sm"></div>
-            
-            <!-- Link Categories -->
-            <div id="categories" class="space-y-6"></div>
-        </main>
-    </div>
+    <footer class="text-center p-8 text-gray-400 text-xs">
+        &copy; 2026 Operator Madrasah - Kecamatan Kraton
+    </footer>
 
     <script src="data.js"></script>
     <script>
-        function login() {
-            const p = document.getElementById('pass').value;
-            if(p === "Kraton2026" || p === "Sate123") {
-                document.getElementById('auth').classList.add('hidden');
-                document.getElementById('app').classList.remove('hidden');
-                init();
-            } else alert("Password Salah");
-        }
-        function init() {
-            document.getElementById('announcement').innerText = "Pengumuman: " + portalData.announcement;
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('announcement-text').innerText = portalData.announcement;
             const container = document.getElementById('categories');
             const cats = [...new Set(portalData.links.map(l => l.category))];
             
             cats.forEach(cat => {
                 const section = document.createElement('div');
-                section.innerHTML = `<h3 class="font-bold text-blue-800 mb-2 border-b-2 border-blue-800 pb-1">${cat}</h3>`;
+                section.className = "bg-white p-6 rounded-lg border border-gray-200 shadow-sm";
+                section.innerHTML = `<h3 class="font-bold text-blue-900 mb-4 uppercase tracking-tighter">${cat}</h3>`;
                 const grid = document.createElement('div');
-                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-2";
+                grid.className = "grid grid-cols-1 gap-2";
                 
                 portalData.links.filter(l => l.category === cat).forEach(l => {
-                    grid.innerHTML += `<a href="${l.url}" target="_blank" class="p-3 bg-white border border-gray-200 rounded hover:bg-blue-50 text-sm font-medium text-gray-700 shadow-sm">➤ ${l.name}</a>`;
+                    grid.innerHTML += `<a href="${l.url}" target="_blank" class="block p-3 border border-gray-100 rounded hover:bg-blue-50 hover:border-blue-200 text-sm font-medium text-gray-700 transition">‣ ${l.name}</a>`;
                 });
                 section.appendChild(grid);
                 container.appendChild(section);
             });
-        }
+        });
     </script>
 </body>
 </html>
